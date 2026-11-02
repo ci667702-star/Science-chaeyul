@@ -195,18 +195,176 @@
       color: var(--text);
     }
 
-    .compare {
-      margin: 19px 0 44px;
+    .section-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .section-links a {
+      padding: 8px 14px;
+      color: var(--green);
+      border: 1px solid rgba(195, 255, 112, 0.3);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .guide-section {
+      margin-top: 19px;
       padding: 24px;
+      scroll-margin-top: 16px;
       background: rgba(20, 29, 23, 0.63);
       border: 1px solid var(--line);
       border-radius: var(--radius);
     }
 
-    .compare h3 {
-      margin: 0 0 14px;
-      font-size: 18px;
+    .guide-section:last-of-type {
+      margin-bottom: 44px;
+    }
+
+    .guide-section:target {
+      border-color: rgba(195, 255, 112, 0.55);
+    }
+
+    .guide-section h3 {
+      margin: 0 0 8px;
+      font-size: 22px;
       font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .section-intro {
+      margin: 0 0 18px;
+      color: #96a199;
+      font-size: 13px;
+      line-height: 1.8;
+      word-break: keep-all;
+    }
+
+    .id-steps {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: id-step;
+    }
+
+    .id-step {
+      padding: 16px 0;
+      border-top: 1px solid var(--line);
+      counter-increment: id-step;
+    }
+
+    .id-step-title {
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .id-step-title::before {
+      margin-right: 8px;
+      color: var(--green);
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      content: "0" counter(id-step);
+    }
+
+    .id-pair,
+    .conserve-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .id-pair p {
+      margin: 0;
+      padding: 12px 14px;
+      color: #c4cec5;
+      background: rgba(255, 255, 255, 0.025);
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.8;
+      word-break: keep-all;
+    }
+
+    .id-pair strong {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--text);
+    }
+
+    .callout {
+      margin: 16px 0 0;
+      padding: 14px 16px;
+      color: #e8d9c8;
+      background: rgba(255, 185, 120, 0.06);
+      border: 1px solid rgba(255, 185, 120, 0.28);
+      border-radius: 13px;
+      font-size: 13px;
+      line-height: 1.8;
+      word-break: keep-all;
+    }
+
+    .callout a {
+      color: var(--orange);
+    }
+
+    .conserve-card {
+      min-width: 0;
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+
+    .conserve-card h4 {
+      margin: 0 0 10px;
+      color: var(--green);
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .status-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .status-tags span {
+      padding: 4px 9px;
+      color: #d4ddd3;
+      border: 1px solid rgba(220, 240, 222, 0.16);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .conserve-label {
+      margin: 14px 0 6px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .conserve-card p,
+    .conserve-card li {
+      color: #c4cec5;
+      font-size: 13px;
+      line-height: 1.8;
+      word-break: keep-all;
+    }
+
+    .conserve-card p {
+      margin: 0;
+    }
+
+    .conserve-card ul {
+      margin: 0;
+      padding-left: 18px;
     }
 
     table {
@@ -261,8 +419,13 @@
         grid-template-columns: 1fr;
       }
 
-      .compare {
+      .guide-section {
         padding: 18px 14px;
+      }
+
+      .id-pair,
+      .conserve-grid {
+        grid-template-columns: 1fr;
       }
 
       th,
@@ -291,6 +454,11 @@
           수달과 족제비는 모두 족제비과 동물이라 길쭉한 몸이 닮았습니다.
           하지만 수달은 물에서, 족제비는 주로 땅에서 살아가도록 적응했어요.
         </p>
+        <nav class="section-links" aria-label="설명 바로가기">
+          <a href="#differences">차이점</a>
+          <a href="#identify">구별하는 법</a>
+          <a href="#conserve">보전하는 법</a>
+        </nav>
       </section>
 
       <section class="animal-grid">
@@ -339,8 +507,11 @@
         </article>
       </section>
 
-      <section class="compare">
-        <h3>한눈에 비교하기</h3>
+      <section class="guide-section" id="differences">
+        <h3>차이점</h3>
+        <p class="section-intro">
+          같은 족제비과지만 몸집과 생활 무대가 크게 다릅니다.
+        </p>
         <table>
           <thead>
             <tr>
@@ -375,15 +546,148 @@
               <td>강과 하천, 해안의 물속과 물가</td>
               <td>숲, 하천 주변, 마을 근처의 땅 위</td>
             </tr>
+            <tr>
+              <th scope="row">주 먹이</th>
+              <td>물고기</td>
+              <td>쥐 같은 작은 포유류</td>
+            </tr>
+            <tr>
+              <th scope="row">IUCN 등급</th>
+              <td>준위협(NT)</td>
+              <td>최소관심(LC)</td>
+            </tr>
           </tbody>
         </table>
+      </section>
+
+      <section class="guide-section" id="identify">
+        <h3>구별하는 법</h3>
+        <p class="section-intro">
+          한 가지만 보고 단정하지 말고, 아래 다섯 가지를 차례로 확인해 보세요.
+          크기가 가장 믿을 만한 단서입니다.
+        </p>
+
+        <ol class="id-steps">
+          <li class="id-step">
+            <div class="id-step-title">크기부터 보기</div>
+            <div class="id-pair">
+              <p><strong>🦦 수달</strong>꼬리까지 합치면 1m 안팎으로 꽤 큽니다.</p>
+              <p><strong>🦡 족제비</strong>꼬리까지 합쳐도 60cm 안팎으로 작고 가늡니다.</p>
+            </div>
+          </li>
+          <li class="id-step">
+            <div class="id-step-title">움직임 보기</div>
+            <div class="id-pair">
+              <p><strong>🦦 수달</strong>물속을 헤엄치고 잠수하며, 물가 바위에 올라와 쉬기도 합니다.</p>
+              <p><strong>🦡 족제비</strong>땅 위를 재빠르게 달리고 좁은 틈으로 파고듭니다. 물가에도 나타나니 장소만으로 단정하면 안 돼요.</p>
+            </div>
+          </li>
+          <li class="id-step">
+            <div class="id-step-title">얼굴 보기</div>
+            <div class="id-pair">
+              <p><strong>🦦 수달</strong>머리가 넓적하고 귀가 작으며 수염이 굵습니다.</p>
+              <p><strong>🦡 족제비</strong>얼굴이 작고 뾰족하며 코 주변이 어둡습니다.</p>
+            </div>
+          </li>
+          <li class="id-step">
+            <div class="id-step-title">꼬리 보기</div>
+            <div class="id-pair">
+              <p><strong>🦦 수달</strong>밑동이 굵고 끝으로 갈수록 가늘어져 노처럼 쓰입니다.</p>
+              <p><strong>🦡 족제비</strong>가늘고 털이 복슬복슬합니다.</p>
+            </div>
+          </li>
+          <li class="id-step">
+            <div class="id-step-title">흔적 보기</div>
+            <div class="id-pair">
+              <p><strong>🦦 수달</strong>물가 바위나 쓰러진 나무, 다리 밑처럼 눈에 띄는 곳에 배설물을 남깁니다. 달큼하면서 비린 냄새가 나고, 둑에 미끄럼 자국이 남기도 해요.</p>
+              <p><strong>🦡 족제비</strong>돌 위에 배설물을 남기는 습성이 있어 위치만으로는 구별하기 어렵습니다. 몸집이 작은 만큼 흔적도 작아요.</p>
+            </div>
+          </li>
+        </ol>
+
+        <p class="callout">
+          흔적은 눈으로만 살펴보고 만지지 마세요. 그리고
+          <a href="index.html">AI 판별기</a>도 사진 한 장으로 틀릴 수 있으니
+          결과는 참고로만 봐 주세요.
+        </p>
+      </section>
+
+      <section class="guide-section" id="conserve">
+        <h3>보전하는 법</h3>
+        <p class="section-intro">
+          수달은 보호가 시급한 동물이고, 족제비는 아직 세계적으로 위기종은 아니지만
+          사람의 영향을 받고 있습니다. 위협이 다르니 도울 방법도 조금씩 달라요.
+        </p>
+
+        <div class="conserve-grid">
+          <article class="conserve-card">
+            <h4>🦦 수달 지키기</h4>
+            <div class="status-tags">
+              <span>천연기념물 제330호</span>
+              <span>멸종위기 야생생물 Ⅰ급</span>
+              <span>IUCN 준위협</span>
+            </div>
+
+            <div class="conserve-label">무엇이 위협하나요</div>
+            <p>
+              수질 오염과 하천 개발이 대표적입니다. 불법 낚시와 쓰레기,
+              로드킬, 어구 등에 우연히 걸리는 사고도 위협이 돼요.
+              야행성이라 빛과 소음에도 민감합니다.
+            </p>
+
+            <div class="conserve-label">이렇게 도울 수 있어요</div>
+            <ul>
+              <li>하천에 쓰레기와 오염수를 버리지 않고, 정화 활동에 참여하기</li>
+              <li>불법 낚시를 하지 않고, 버려진 낚싯줄과 그물은 수거하기</li>
+              <li>서식지 주변에서는 밤에 강한 불빛과 큰 소음 삼가기</li>
+              <li>하천 정비 때 물가 풀숲과 은신처를 남기도록 지역에 의견 내기</li>
+              <li>하천 근처 도로에서는 밤에 천천히 운전하기</li>
+            </ul>
+          </article>
+
+          <article class="conserve-card">
+            <h4>🦡 족제비 지키기</h4>
+            <div class="status-tags">
+              <span>IUCN 최소관심</span>
+            </div>
+
+            <div class="conserve-label">무엇이 위협하나요</div>
+            <p>
+              일부 지역에서는 모피를 얻기 위한 사냥이 압력이 됩니다. 또
+              해외 연구에서 다른 족제비속 동물(무산쇠족제비, 북방족제비)의 몸에서
+              쥐약 성분이 검출되어, 쥐를 먹는 포식자의 2차 노출도 우려됩니다.
+            </p>
+
+            <div class="conserve-label">이렇게 도울 수 있어요</div>
+            <ul>
+              <li>쥐약은 꼭 필요할 때만 쓰고, 틈새 막기 같은 예방을 먼저 하기</li>
+              <li>모피 제품을 살 때 한 번 더 생각하기</li>
+              <li>야생 족제비를 잡아 기르지 않기</li>
+              <li>마을 주변의 숲과 풀숲, 돌 틈 같은 서식 공간 남겨 두기</li>
+            </ul>
+          </article>
+        </div>
+
+        <p class="callout">
+          다치거나 혼자 있는 동물을 발견하면 직접 데려오지 말고, 먼저 지역
+          야생동물구조관리센터에 상황을 설명하고 조언을 구하세요. 사람 손에 자라면
+          야생성을 잃어 자연으로 돌아간 뒤 살아남기 어려워집니다.
+        </p>
       </section>
     </main>
 
     <footer>
       사진: Wikimedia Commons —
       <a href="https://commons.wikimedia.org/wiki/File:Lutra_lutra_at_Skansen_spring_2008-3-edited.JPG">수달 (Leo Johannes, 퍼블릭 도메인)</a> ·
-      <a href="https://commons.wikimedia.org/wiki/File:Mustela_sibirica_230828854.jpg">족제비 (CC0)</a>
+      <a href="https://commons.wikimedia.org/wiki/File:Mustela_sibirica_230828854.jpg">족제비 (CC0)</a><br />
+      참고:
+      <a href="https://otterspecialistgroup.org/osg-newsite/?p=788">IUCN 수달 전문가 그룹</a> ·
+      <a href="https://www.heraldk.com/article/2026052801400068197">헤럴드경제(수달 지위·위협)</a> ·
+      <a href="https://kyeonggi.com/article/20220703580160">경기일보(황구지천 수달)</a> ·
+      <a href="https://www.totalecology.com/blog/otter-spraint-identification/">Total Ecology(수달 배설물)</a> ·
+      <a href="https://en.wikipedia.org/wiki/Siberian_weasel">Wikipedia(족제비)</a> ·
+      <a href="https://www.pubmed.gov/21477845/">PubMed(족제비속 쥐약 노출)</a> ·
+      <a href="https://www.asiae.co.kr/en/article/2024050807171144147">아시아경제(야생동물 구조 안내)</a>
     </footer>
   </div>
 </body>
