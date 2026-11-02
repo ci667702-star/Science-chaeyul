@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b100f" />
+  <title>수달과 족제비 — Wild ID</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #0b100f;
+      --panel: #111916;
+      --line: rgba(221, 245, 222, 0.1);
+      --text: #f3f5ec;
+      --muted: #86958a;
+      --green: #c3ff70;
+      --orange: #ffb978;
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--bg);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 5% 0%, rgba(85, 124, 65, 0.17), transparent 38%),
+        radial-gradient(ellipse at 100% 72%, rgba(43, 104, 76, 0.12), transparent 34%),
+        var(--bg);
+      font-family: "Manrope", "Noto Sans KR", sans-serif;
+      overflow-x: hidden;
+    }
+
+    a:focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 4px;
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 64px));
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 26px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .back-link {
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .jump-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .jump-links a {
+      padding: 7px 12px;
+      color: #d4ddd3;
+      border: 1px solid rgba(220, 240, 222, 0.12);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 56px 0 36px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 2.5px;
+    }
+
+    h1 {
+      margin: 16px 0 0;
+      font-family: "Noto Sans KR", sans-serif;
+      font-size: clamp(32px, 6vw, 56px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.15;
+      word-break: keep-all;
+    }
+
+    .hero p {
+      margin: 16px auto 0;
+      max-width: 560px;
+      color: #96a199;
+      font-size: 14px;
+      line-height: 1.9;
+      word-break: keep-all;
+    }
+
+    .animal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 19px;
+    }
+
+    .animal-card {
+      min-width: 0;
+      overflow: hidden;
+      scroll-margin-top: 16px;
+      background: linear-gradient(145deg, rgba(25, 35, 29, 0.96), rgba(15, 22, 19, 0.97));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .animal-card:target {
+      border-color: rgba(195, 255, 112, 0.55);
+    }
+
+    .animal-photo {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #0a100d;
+    }
+
+    #otter .animal-photo {
+      object-position: center bottom;
+    }
+
+    .animal-body {
+      padding: 24px 24px 26px;
+    }
+
+    .animal-latin {
+      color: var(--muted);
+      font-family: "DM Mono", monospace;
+      font-size: 11px;
+      font-style: italic;
+    }
+
+    h2 {
+      margin: 6px 0 12px;
+      color: var(--green);
+      font-family: "Noto Sans KR", sans-serif;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .animal-body p {
+      margin: 0;
+      color: #c4cec5;
+      font-size: 14px;
+      line-height: 1.9;
+      word-break: keep-all;
+    }
+
+    .animal-facts {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .animal-facts li {
+      padding: 9px 0;
+      color: #c4cec5;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      line-height: 1.7;
+      word-break: keep-all;
+    }
+
+    .animal-facts strong {
+      margin-right: 6px;
+      color: var(--text);
+    }
+
+    .compare {
+      margin: 19px 0 44px;
+      padding: 24px;
+      background: rgba(20, 29, 23, 0.63);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .compare h3 {
+      margin: 0 0 14px;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      line-height: 1.7;
+      word-break: keep-all;
+    }
+
+    th,
+    td {
+      padding: 11px 10px;
+      text-align: left;
+      vertical-align: top;
+      border-top: 1px solid var(--line);
+    }
+
+    thead th {
+      color: var(--green);
+      border-top: 0;
+    }
+
+    tbody th {
+      color: var(--muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    td {
+      color: #d0d9d0;
+    }
+
+    footer {
+      padding: 20px 0 27px;
+      color: #67736a;
+      border-top: 1px solid var(--line);
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    footer a {
+      color: #8d9a90;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: calc(100% - 30px);
+      }
+
+      .animal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .compare {
+        padding: 18px 14px;
+      }
+
+      th,
+      td {
+        padding: 10px 6px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header>
+      <a class="back-link" href="index.html">← 판별하러 돌아가기</a>
+      <nav class="jump-links" aria-label="동물 바로가기">
+        <a href="#otter">🦦 수달</a>
+        <a href="#weasel">🦡 족제비</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">FIELD GUIDE</div>
+        <h1>닮았지만, 사는 곳이 달라요</h1>
+        <p>
+          수달과 족제비는 모두 족제비과 동물이라 길쭉한 몸이 닮았습니다.
+          하지만 수달은 물에서, 족제비는 주로 땅에서 살아가도록 적응했어요.
+        </p>
+      </section>
+
+      <section class="animal-grid">
+        <article class="animal-card" id="otter">
+          <img
+            class="animal-photo"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Lutra_lutra_at_Skansen_spring_2008-3-edited.JPG/500px-Lutra_lutra_at_Skansen_spring_2008-3-edited.JPG"
+            alt="바위 사이 물가에 있는 수달"
+          />
+          <div class="animal-body">
+            <div class="animal-latin">Lutra lutra · Eurasian otter</div>
+            <h2>🦦 수달</h2>
+            <p>
+              강과 하천, 해안을 오가는 반수생 동물입니다. 물갈퀴가 있는 발과
+              힘센 꼬리로 헤엄치고, 물이 잘 스며들지 않는 빽빽한 털로 체온을 지켜요.
+            </p>
+            <ul class="animal-facts">
+              <li><strong>크기</strong>몸길이 약 60~90cm, 꼬리 약 35~40cm, 몸무게 약 5~10kg</li>
+              <li><strong>먹이</strong>물고기를 주로 먹고 개구리, 게 등도 잡아먹어요.</li>
+              <li><strong>활동</strong>주로 해가 진 뒤에 활발하게 움직여요.</li>
+              <li><strong>한국에서는</strong>천연기념물이자 멸종위기 야생생물 Ⅰ급으로 보호받고 있어요.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="animal-card" id="weasel">
+          <img
+            class="animal-photo"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Mustela_sibirica_230828854.jpg/500px-Mustela_sibirica_230828854.jpg"
+            alt="물가 자갈밭에 앉아 있는 족제비"
+          />
+          <div class="animal-body">
+            <div class="animal-latin">Mustela sibirica · Siberian weasel</div>
+            <h2>🦡 족제비</h2>
+            <p>
+              숲과 하천 주변, 마을 근처까지 폭넓게 살아가는 작은 육식동물입니다.
+              가늘고 긴 몸 덕분에 좁은 굴과 틈새를 드나들며 사냥할 수 있어요.
+            </p>
+            <ul class="animal-facts">
+              <li><strong>크기</strong>몸길이 약 25~39cm, 꼬리 약 13~21cm, 몸무게 약 0.4~0.8kg (수컷이 더 커요)</li>
+              <li><strong>먹이</strong>쥐 같은 작은 포유류를 주로 먹고 새, 개구리, 곤충도 먹어요.</li>
+              <li><strong>방어</strong>위협을 느끼면 항문샘에서 고약한 냄새를 내뿜어요.</li>
+              <li><strong>한국에서는</strong>꼬리털로 만든 붓 ‘황모필’이 전통 붓으로 유명해요.</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <section class="compare">
+        <h3>한눈에 비교하기</h3>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col" aria-label="구분"></th>
+              <th scope="col">🦦 수달</th>
+              <th scope="col">🦡 족제비</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">크기</th>
+              <td>대형, 몸무게 약 5~10kg</td>
+              <td>소형, 몸무게 1kg 미만</td>
+            </tr>
+            <tr>
+              <th scope="row">털색</th>
+              <td>짙은 갈색, 목과 배 쪽은 더 밝음</td>
+              <td>황갈색, 코 주변은 어두움</td>
+            </tr>
+            <tr>
+              <th scope="row">머리</th>
+              <td>넓적한 머리와 굵은 수염</td>
+              <td>작고 뾰족한 얼굴</td>
+            </tr>
+            <tr>
+              <th scope="row">꼬리</th>
+              <td>굵고 힘센 노 같은 꼬리</td>
+              <td>가늘고 털이 복슬복슬한 꼬리</td>
+            </tr>
+            <tr>
+              <th scope="row">주 무대</th>
+              <td>강과 하천, 해안의 물속과 물가</td>
+              <td>숲, 하천 주변, 마을 근처의 땅 위</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer>
+      사진: Wikimedia Commons —
+      <a href="https://commons.wikimedia.org/wiki/File:Lutra_lutra_at_Skansen_spring_2008-3-edited.JPG">수달 (Leo Johannes, 퍼블릭 도메인)</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:Mustela_sibirica_230828854.jpg">족제비 (CC0)</a>
+    </footer>
+  </div>
+</body>
+</html>

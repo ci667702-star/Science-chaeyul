@@ -500,6 +500,188 @@
       font-family: "DM Mono", monospace;
     }
 
+    /* Links to the animal guide */
+
+    .animal-link {
+      display: inline-block;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s ease;
+    }
+
+    .animal-link:hover {
+      transform: scale(1.15);
+    }
+
+    .animal-link:focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 4px;
+    }
+
+    .animal-link-hint {
+      margin-top: 16px;
+      color: #839087;
+      font-size: 10px;
+    }
+
+    /* AI vision scan */
+
+    .btn-vision {
+      grid-column: 1 / -1;
+      color: var(--green);
+      background: rgba(195, 255, 112, 0.06);
+      border-color: rgba(195, 255, 112, 0.45);
+      animation: vision-glow 2.2s ease-in-out infinite;
+    }
+
+    .btn-vision:hover:not(:disabled) {
+      background: rgba(195, 255, 112, 0.13);
+    }
+
+    .btn-vision:disabled {
+      animation: none;
+    }
+
+    .vision-stage {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      z-index: 1;
+      height: 100%;
+      aspect-ratio: 1;
+      overflow: hidden;
+      transform: translateX(-50%);
+    }
+
+    .vision-stage.is-interactive {
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .camera-wrap .vision-heat {
+      position: absolute;
+      inset: 0;
+      filter: blur(8px);
+      transition: opacity 0.2s ease;
+    }
+
+    .vision-stage.is-erasing .vision-heat {
+      opacity: 0.3;
+    }
+
+    .camera-wrap .vision-paint {
+      position: absolute;
+      inset: 0;
+    }
+
+    .vision-clear {
+      margin-top: 10px;
+    }
+
+    .vision-patch {
+      position: absolute;
+      width: 25%;
+      height: 25%;
+      pointer-events: none;
+      background: #808080;
+      border: 1px solid var(--green);
+      transform: translate(-50%, -50%);
+    }
+
+    .vision-peak {
+      position: absolute;
+      width: 25%;
+      height: 25%;
+      pointer-events: none;
+      border: 2px solid var(--text);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(11, 16, 15, 0.45);
+      transform: translate(-50%, -50%);
+      animation: pulse 1.8s infinite;
+    }
+
+    .vision-readout {
+      position: absolute;
+      bottom: 23px;
+      left: 50%;
+      z-index: 4;
+      padding: 7px 12px;
+      color: var(--green);
+      pointer-events: none;
+      white-space: nowrap;
+      background: rgba(9, 15, 11, 0.8);
+      border: 1px solid rgba(195, 255, 112, 0.25);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      transform: translateX(-50%);
+      backdrop-filter: blur(8px);
+    }
+
+    .vision-readout.is-flipped {
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+
+    .vision-report {
+      margin: 0 18px 15px;
+      padding: 15px 16px;
+      background: rgba(195, 255, 112, 0.04);
+      border: 1px solid rgba(195, 255, 112, 0.15);
+      border-radius: 13px;
+      word-break: keep-all;
+    }
+
+    .vision-title {
+      margin-bottom: 6px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .vision-text {
+      color: #d0d9d0;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .vision-method {
+      margin-top: 8px;
+      color: #839087;
+      font-size: 10px;
+      line-height: 1.8;
+    }
+
+    .sample-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 0 20px 13px;
+      color: #839087;
+      font-size: 10px;
+    }
+
+    .sample-btn {
+      padding: 6px 10px;
+      color: #d4ddd3;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(220, 240, 222, 0.12);
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .sample-btn:hover:not(:disabled) {
+      border-color: rgba(195, 255, 112, 0.35);
+    }
+
+    .sample-btn:disabled {
+      opacity: 0.5;
+      cursor: wait;
+    }
+
     /* Results */
 
     .result-panel {
@@ -530,6 +712,14 @@
       border-radius: 17px;
       text-align: center;
       transition: border-color 0.35s ease;
+    }
+
+    .result-hero.is-flipped {
+      border-color: var(--orange);
+    }
+
+    .result-hero.is-flipped .result-kicker {
+      color: var(--orange);
     }
 
     .result-hero::before {
@@ -862,6 +1052,11 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    @keyframes vision-glow {
+      0%, 100% { box-shadow: 0 0 0 rgba(195, 255, 112, 0); }
+      50% { box-shadow: 0 0 22px rgba(195, 255, 112, 0.28); }
+    }
+
     @media (min-width: 1400px) {
       .page {
         width: min(1120px, calc(100% - 100px));
@@ -1012,7 +1207,7 @@
             <div class="empty-state" id="empty-state">
               <div class="radar">
                 <div class="radar-ring"></div>
-                <div class="radar-icon">🦦</div>
+                <a class="radar-icon animal-link" href="animals.html#otter" aria-label="수달 설명 보기" title="수달 설명 보기">🦦</a>
               </div>
               <div class="empty-title">누구인지 알아볼까요?</div>
               <div class="empty-description">
@@ -1052,12 +1247,43 @@
               다른 사진 선택
             </button>
 
+            <button class="btn btn-vision hidden" id="vision-btn" type="button">
+              <span class="btn-icon">◉</span>
+              <span id="vision-btn-label">AI의 시선 스캔</span>
+            </button>
+
             <input
               type="file"
               id="file-input"
               accept="image/*"
               aria-label="분석할 동물 사진 선택"
             />
+          </div>
+
+          <div class="vision-report hidden" id="vision-report" aria-live="polite">
+            <div class="vision-title" id="vision-title"></div>
+            <div class="vision-text" id="vision-text"></div>
+            <button class="sample-btn vision-clear hidden" id="vision-clear-btn" type="button">
+              칠한 곳 지우기
+            </button>
+            <div class="vision-method">
+              사진 곳곳을 회색으로 가리고 모델에 다시 물어본 실제 측정값입니다.
+              (가림 민감도, occlusion sensitivity)
+            </div>
+          </div>
+
+          <div class="sample-row">
+            <span>사진이 없다면</span>
+            <button
+              class="sample-btn"
+              type="button"
+              data-sample="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Lutra_lutra_at_Skansen_spring_2008-3-edited.JPG/500px-Lutra_lutra_at_Skansen_spring_2008-3-edited.JPG"
+            >🦦 예시 수달</button>
+            <button
+              class="sample-btn"
+              type="button"
+              data-sample="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Mustela_sibirica_230828854.jpg/500px-Mustela_sibirica_230828854.jpg"
+            >🦡 예시 족제비</button>
           </div>
 
           <div class="camera-caption">
@@ -1082,7 +1308,7 @@
           <div class="result-content">
             <div class="result-hero" id="result-hero">
               <div class="result-kicker" id="result-kicker">IDENTITY UNKNOWN</div>
-              <div class="result-animal" id="result-animal">?</div>
+              <a class="result-animal animal-link" id="result-animal" href="animals.html" aria-label="수달과 족제비 설명 보기" title="수달과 족제비 설명 보기">?</a>
               <div class="result-name" id="result-name">
                 <span style="color:#87948a">아직 몰라요.</span>
               </div>
@@ -1107,7 +1333,7 @@
               <div class="score-row">
                 <div class="score-head">
                   <div class="score-name">
-                    <span class="score-icon">🦦</span>
+                    <a class="score-icon animal-link" href="animals.html#otter" aria-label="수달 설명 보기" title="수달 설명 보기">🦦</a>
                     수달
                   </div>
                   <span class="score-percent">--%</span>
@@ -1120,7 +1346,7 @@
               <div class="score-row">
                 <div class="score-head">
                   <div class="score-name">
-                    <span class="score-icon">🦡</span>
+                    <a class="score-icon animal-link" href="animals.html#weasel" aria-label="족제비 설명 보기" title="족제비 설명 보기">🦡</a>
                     족제비
                   </div>
                   <span class="score-percent">--%</span>
@@ -1129,6 +1355,10 @@
                   <div class="score-fill"></div>
                 </div>
               </div>
+            </div>
+
+            <div class="animal-link-hint">
+              <span aria-hidden="true">↗</span> 동물 아이콘을 누르면 설명 페이지로 이동해요.
             </div>
 
             <div class="result-footnote">
@@ -1166,7 +1396,7 @@
     </main>
 
     <footer>
-      <span>WILD ID © 2026 · FIELD LAB NO.001</span>
+      <span>WILD ID © 2026 · FIELD LAB NO.001 · SAMPLE PHOTOS: WIKIMEDIA COMMONS (PD / CC0)</span>
       <span class="footer-right">A LITTLE CURIOUS ABOUT THE WILD.</span>
     </footer>
   </div>
@@ -1193,6 +1423,9 @@
     let currentObjectURL = null;
     let toastTimeout = null;
     let previousWinner = null;
+    let visionSource = null;
+    let visionRunId = 0;
+    let liveOcclusion = null;
 
     const $ = (id) => document.getElementById(id);
 
@@ -1215,6 +1448,13 @@
     const confidenceNumber = $("confidence-number");
     const resultHero = $("result-hero");
     const scoreList = $("score-list");
+
+    const visionButton = $("vision-btn");
+    const visionButtonLabel = $("vision-btn-label");
+    const visionReport = $("vision-report");
+    const visionTitle = $("vision-title");
+    const visionText = $("vision-text");
+    const visionClearButton = $("vision-clear-btn");
 
     // =========================================================
     // 클래스 이름 처리
@@ -1286,13 +1526,15 @@
       startButton.classList.toggle("hidden", isCamera);
       changeImageButton.classList.toggle("hidden", !isImage);
       uploadButton.classList.toggle("hidden", isImage);
+      visionButton.classList.toggle("hidden", !isCamera && !isImage);
+      visionButtonLabel.textContent = isCamera
+        ? "이 장면을 멈추고 시선 스캔"
+        : "AI의 시선 스캔";
 
       if (isCamera) {
         sourceStatus.textContent = "LIVE FEED";
-        $("media-label-text").textContent = "LIVE FEED";
       } else if (isImage) {
         sourceStatus.textContent = "IMAGE INPUT";
-        $("media-label-text").textContent = "IMAGE LOADED";
       } else {
         sourceStatus.textContent = "NO INPUT";
       }
@@ -1341,6 +1583,7 @@
       try {
         await ensureModel();
         await stopCamera();
+        resetVision();
 
         webcam = new tmImage.Webcam(320, 320, true);
 
@@ -1488,6 +1731,7 @@
 
       try {
         await stopCamera();
+        resetVision();
 
         if (currentObjectURL) {
           window.URL.revokeObjectURL(currentObjectURL);
@@ -1527,7 +1771,12 @@
             analysisStatus.textContent = "ANALYZING";
             setModelStatus("MODEL ONLINE");
 
-            const predictions = await model.predict(image);
+            visionSource = image;
+
+            // 화면에 맞춰 늘어난 크기가 아니라 원본 비율의 중앙 정사각형을 분석합니다.
+            const predictions = await model.predict(
+              cropToSquare(image, VISION_INPUT_SIZE)
+            );
             renderPrediction(predictions);
 
             analysisStatus.textContent = "ANALYSIS COMPLETE";
@@ -1549,9 +1798,489 @@
       }
     }
 
+    async function loadSampleImage(button) {
+      button.disabled = true;
+
+      try {
+        const response = await fetch(button.dataset.sample);
+
+        if (!response.ok) {
+          throw new Error("예시 사진 응답 오류: " + response.status);
+        }
+
+        await handleImageUpload(await response.blob());
+      } catch (error) {
+        console.error("예시 사진 오류:", error);
+        showToast("예시 사진을 불러오지 못했습니다.", true);
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    // =========================================================
+    // AI의 시선 스캔
+    //
+    // 가림 민감도(occlusion sensitivity) 기법입니다.
+    // 사진의 일부를 회색으로 가린 채 모델에 다시 물어보고,
+    // 확신이 얼마나 줄었는지를 위치별로 기록합니다.
+    // =========================================================
+    const VISION_INPUT_SIZE = 224;
+    const VISION_DISPLAY_SIZE = 672;
+    const VISION_GRID = 14;
+    const VISION_PATCH_SIZE = VISION_INPUT_SIZE / 4;
+    const VISION_PATCH_COLOR = "#808080";
+
+    // 이보다 작은 로그 오즈 변화는 "거의 안 변했다"로 봅니다.
+    const VISION_MIN_SIGNAL = 0.5;
+
+    function cropToSquare(source, size) {
+      const width = source.naturalWidth || source.width;
+      const height = source.naturalHeight || source.height;
+      const side = Math.min(width, height);
+
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+
+      const context = canvas.getContext("2d");
+      context.imageSmoothingQuality = "high";
+      context.drawImage(
+        source,
+        (width - side) / 2,
+        (height - side) / 2,
+        side,
+        side,
+        0,
+        0,
+        size,
+        size
+      );
+
+      return canvas;
+    }
+
+    function drawOccluded(context, input, centerX, centerY) {
+      if (input) {
+        context.drawImage(input, 0, 0);
+      }
+
+      context.fillStyle = VISION_PATCH_COLOR;
+      context.fillRect(
+        centerX - VISION_PATCH_SIZE / 2,
+        centerY - VISION_PATCH_SIZE / 2,
+        VISION_PATCH_SIZE,
+        VISION_PATCH_SIZE
+      );
+    }
+
+    function getTopPrediction(predictions) {
+      return predictions.reduce((top, item) =>
+        item.probability > top.probability ? item : top
+      );
+    }
+
+    // 확률이 100% 근처에 붙어도 변화를 볼 수 있도록 로그 오즈로 비교합니다.
+    function toLogOdds(probability) {
+      const clamped = Math.min(1 - 1e-6, Math.max(1e-6, probability));
+      return Math.log(clamped / (1 - clamped));
+    }
+
+    function getHeatColor(strength) {
+      const stops = [
+        [195, 255, 112],
+        [255, 185, 120],
+        [255, 92, 74]
+      ];
+      const scaled = strength * (stops.length - 1);
+      const index = Math.min(stops.length - 2, Math.floor(scaled));
+      const blend = scaled - index;
+
+      return stops[index].map(
+        (value, channel) =>
+          value + (stops[index + 1][channel] - value) * blend
+      );
+    }
+
+    function paintHeat(heatCanvas, drops, maxDrop) {
+      const small = document.createElement("canvas");
+      small.width = VISION_GRID;
+      small.height = VISION_GRID;
+
+      const smallContext = small.getContext("2d");
+      const pixels = smallContext.createImageData(VISION_GRID, VISION_GRID);
+
+      drops.forEach((drop, index) => {
+        const strength = Math.max(0, Math.min(1, drop / maxDrop));
+        const [red, green, blue] = getHeatColor(strength);
+
+        pixels.data[index * 4] = red;
+        pixels.data[index * 4 + 1] = green;
+        pixels.data[index * 4 + 2] = blue;
+        pixels.data[index * 4 + 3] = strength < 0.15 ? 0 : strength * 190;
+      });
+
+      smallContext.putImageData(pixels, 0, 0);
+
+      const context = heatCanvas.getContext("2d");
+      context.clearRect(0, 0, heatCanvas.width, heatCanvas.height);
+      context.imageSmoothingQuality = "high";
+      context.drawImage(small, 0, 0, heatCanvas.width, heatCanvas.height);
+    }
+
+    function placeOnStage(element, xRatio, yRatio) {
+      element.style.left = xRatio * 100 + "%";
+      element.style.top = yRatio * 100 + "%";
+    }
+
+    function mountVisionStage(source) {
+      const stage = document.createElement("div");
+      stage.className = "vision-stage";
+
+      const heatCanvas = document.createElement("canvas");
+      heatCanvas.className = "vision-heat";
+      heatCanvas.width = VISION_INPUT_SIZE;
+      heatCanvas.height = VISION_INPUT_SIZE;
+
+      const paintCanvas = document.createElement("canvas");
+      paintCanvas.className = "vision-paint";
+      paintCanvas.width = VISION_INPUT_SIZE;
+      paintCanvas.height = VISION_INPUT_SIZE;
+
+      const patch = document.createElement("div");
+      patch.className = "vision-patch";
+
+      const photo = cropToSquare(source, VISION_DISPLAY_SIZE);
+      photo.setAttribute("aria-label", "AI가 분석하는 사진 영역");
+
+      stage.append(photo, heatCanvas, paintCanvas, patch);
+
+      const overlay = document.createElement("div");
+      overlay.className = "camera-overlay";
+
+      const corners = document.createElement("div");
+      corners.className = "camera-corners";
+
+      const readout = document.createElement("div");
+      readout.className = "vision-readout";
+
+      cameraContainer.innerHTML = "";
+      cameraContainer.classList.remove("scanning");
+      cameraContainer.classList.add("has-media");
+      cameraContainer.append(stage, overlay, corners, readout);
+
+      return { stage, heatCanvas, paintCanvas, patch, readout };
+    }
+
+    async function runVisionScan() {
+      if (!webcam && !visionSource) return;
+
+      const runId = ++visionRunId;
+      const isStale = () => runId !== visionRunId;
+
+      liveOcclusion = null;
+      visionButton.disabled = true;
+      visionButtonLabel.textContent = "스캔 중…";
+
+      try {
+        await ensureModel();
+
+        // 카메라 모드에서는 지금 장면을 멈춰서 사진처럼 분석합니다.
+        if (webcam) {
+          visionSource = cropToSquare(webcam.canvas, webcam.canvas.width);
+          await stopCamera();
+          setInputMode("image");
+          visionButtonLabel.textContent = "스캔 중…";
+        }
+
+        const input = cropToSquare(visionSource, VISION_INPUT_SIZE);
+        const baseline = await model.predict(input);
+        if (isStale()) return;
+
+        renderPrediction(baseline);
+
+        const winner = getTopPrediction(baseline);
+        const winnerName = getAnimalInfo(winner.className).name;
+        const baselineLogOdds = toLogOdds(winner.probability);
+        const { stage, heatCanvas, paintCanvas, patch, readout } =
+          mountVisionStage(visionSource);
+
+        const scratch = document.createElement("canvas");
+        scratch.width = VISION_INPUT_SIZE;
+        scratch.height = VISION_INPUT_SIZE;
+        const scratchContext = scratch.getContext("2d");
+
+        const total = VISION_GRID * VISION_GRID;
+        const cellSize = VISION_INPUT_SIZE / VISION_GRID;
+        const drops = new Array(total).fill(0);
+
+        let flipCount = 0;
+        let peak = { drop: -Infinity, predictions: baseline, x: 0.5, y: 0.5 };
+
+        visionReport.classList.remove("hidden");
+        visionTitle.textContent = "AI의 시선을 추적하는 중…";
+        visionText.textContent =
+          "사진을 " + total + "곳으로 나눠 하나씩 가리면서 모델의 반응을 재고 있어요.";
+
+        for (let index = 0; index < total; index++) {
+          const col = index % VISION_GRID;
+          const row = Math.floor(index / VISION_GRID);
+          const x = (col + 0.5) / VISION_GRID;
+          const y = (row + 0.5) / VISION_GRID;
+
+          placeOnStage(patch, x, y);
+          drawOccluded(
+            scratchContext,
+            input,
+            (col + 0.5) * cellSize,
+            (row + 0.5) * cellSize
+          );
+
+          const predictions = await model.predict(scratch);
+          if (isStale()) return;
+
+          const probability = predictions.find(
+            (item) => item.className === winner.className
+          ).probability;
+          const drop = baselineLogOdds - toLogOdds(probability);
+
+          drops[index] = drop;
+
+          if (getTopPrediction(predictions).className !== winner.className) {
+            flipCount++;
+          }
+
+          if (drop > peak.drop) {
+            peak = { drop, predictions, x, y };
+          }
+
+          paintHeat(heatCanvas, drops, Math.max(peak.drop, VISION_MIN_SIGNAL));
+
+          analysisStatus.textContent = "VISION SCAN";
+          readout.textContent = "스캔 중 " + (index + 1) + " / " + total;
+
+          // 스캔 과정이 화면에 그려질 틈을 줍니다.
+          // 숨겨진 탭에서는 타이머가 크게 느려지므로 기다리지 않습니다.
+          if (!document.hidden) {
+            await new Promise((resolve) => setTimeout(resolve));
+            if (isStale()) return;
+          }
+        }
+
+        patch.classList.add("hidden");
+
+        if (peak.drop < VISION_MIN_SIGNAL) {
+          visionTitle.textContent = "한 곳에 기대지 않았어요";
+          visionText.textContent =
+            total + "곳을 하나씩 가려봤지만 판단이 거의 흔들리지 않았어요. " +
+            "특정 부위 하나로 판단했다고 보기는 어렵습니다. " +
+            "사진을 드래그해 칠하면서 판정을 뒤집어 보세요.";
+        } else {
+          const peakRing = document.createElement("div");
+          peakRing.className = "vision-peak";
+          placeOnStage(peakRing, peak.x, peak.y);
+          stage.appendChild(peakRing);
+
+          visionTitle.textContent = "AI는 여기를 보고 있었어요";
+          visionText.textContent =
+            describePeak(winner, winnerName, peak.predictions) + " " +
+            (flipCount > 0
+              ? total + "곳 중 " + flipCount + "곳을 가렸을 때 판정이 뒤집혔어요. "
+              : total + "곳 중 어디를 가려도 판정은 그대로였어요. ") +
+            "이제 사진을 드래그해 칠하면서 판정을 뒤집어 보세요.";
+        }
+
+        visionButtonLabel.textContent = "스캔 완료";
+        analysisStatus.textContent = "ANALYSIS COMPLETE";
+
+        startLiveOcclusion({
+          stage,
+          paintCanvas,
+          patch,
+          readout,
+          input,
+          scratch,
+          scratchContext,
+          baseline,
+          winner
+        });
+      } catch (error) {
+        console.error("시선 스캔 오류:", error);
+        showToast(error.message || "시선 스캔에 실패했습니다.", true);
+        analysisStatus.textContent = "ANALYSIS FAILED";
+        visionButton.disabled = false;
+        visionButtonLabel.textContent = "AI의 시선 스캔";
+      }
+    }
+
+    function describePeak(winner, winnerName, peakPredictions) {
+      const before = Math.round(winner.probability * 100);
+      const top = getTopPrediction(peakPredictions);
+
+      if (top.className !== winner.className) {
+        const topName = getAnimalInfo(top.className).name;
+
+        return (
+          "표시한 곳을 가리면 " + winnerName + " " + before + "% → " +
+          topName + " " + Math.round(top.probability * 100) +
+          "%, 판정이 뒤집혀요."
+        );
+      }
+
+      return (
+        "표시한 곳을 가리면 " + winnerName + " 확률이 " + before + "%에서 " +
+        Math.round(top.probability * 100) + "%로 떨어져요."
+      );
+    }
+
+    // =========================================================
+    // 직접 가려보기
+    // =========================================================
+    function startLiveOcclusion(session) {
+      liveOcclusion = { ...session, target: null, isBusy: false };
+
+      session.stage.classList.add("is-interactive");
+      session.stage.addEventListener("pointerdown", moveLiveOcclusion);
+      session.stage.addEventListener("pointermove", moveLiveOcclusion);
+      session.stage.addEventListener("pointerleave", endLiveOcclusion);
+      session.stage.addEventListener("pointercancel", endLiveOcclusion);
+
+      showLiveResult(session.baseline);
+    }
+
+    function moveLiveOcclusion(event) {
+      if (!liveOcclusion) return;
+
+      const session = liveOcclusion;
+      const rect = session.stage.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width;
+      const y = (event.clientY - rect.top) / rect.height;
+
+      // 누른 채로 움직이면 가린 곳이 사진 위에 쌓입니다.
+      if (event.buttons & 1) {
+        drawOccluded(
+          session.paintCanvas.getContext("2d"),
+          null,
+          x * VISION_INPUT_SIZE,
+          y * VISION_INPUT_SIZE
+        );
+        visionClearButton.classList.remove("hidden");
+      }
+
+      session.target = { x, y };
+      session.stage.classList.add("is-erasing");
+      session.patch.classList.remove("hidden");
+      placeOnStage(session.patch, x, y);
+
+      predictLiveOcclusion(session);
+    }
+
+    // 예측이 도는 동안 들어온 위치는 건너뛰고 가장 최근 위치만 분석합니다.
+    async function predictLiveOcclusion(session) {
+      if (session.isBusy) return;
+
+      session.isBusy = true;
+
+      try {
+        while (session.target && liveOcclusion === session) {
+          const { x, y } = session.target;
+          session.target = null;
+
+          session.scratchContext.drawImage(session.input, 0, 0);
+          session.scratchContext.drawImage(session.paintCanvas, 0, 0);
+
+          if (x !== null) {
+            drawOccluded(
+              session.scratchContext,
+              null,
+              x * VISION_INPUT_SIZE,
+              y * VISION_INPUT_SIZE
+            );
+          }
+
+          const predictions = await model.predict(session.scratch);
+
+          if (liveOcclusion === session) {
+            showLiveResult(predictions);
+          }
+        }
+      } catch (error) {
+        console.error("직접 가려보기 오류:", error);
+      } finally {
+        session.isBusy = false;
+      }
+    }
+
+    function endLiveOcclusion() {
+      if (!liveOcclusion) return;
+
+      const session = liveOcclusion;
+
+      session.target = { x: null, y: null };
+      session.stage.classList.remove("is-erasing");
+      session.patch.classList.add("hidden");
+
+      predictLiveOcclusion(session);
+    }
+
+    function clearLiveOcclusion() {
+      if (!liveOcclusion) return;
+
+      const session = liveOcclusion;
+
+      session.paintCanvas
+        .getContext("2d")
+        .clearRect(0, 0, VISION_INPUT_SIZE, VISION_INPUT_SIZE);
+      visionClearButton.classList.add("hidden");
+
+      session.target = { x: null, y: null };
+      predictLiveOcclusion(session);
+    }
+
+    function showLiveResult(predictions) {
+      renderPrediction(predictions);
+
+      const { readout, winner } = liveOcclusion;
+      const top = getTopPrediction(predictions);
+      const info = getAnimalInfo(top.className);
+      const isFlipped = top.className !== winner.className;
+
+      readout.textContent =
+        info.icon + " " + info.name + " " +
+        Math.round(top.probability * 100) + "%" +
+        (isFlipped ? " · 판정 뒤집힘!" : "");
+      readout.classList.toggle("is-flipped", isFlipped);
+      resultHero.classList.toggle("is-flipped", isFlipped);
+
+      if (isFlipped) {
+        resultKicker.textContent = "VERDICT FLIPPED";
+      }
+    }
+
+    function resetVision() {
+      visionRunId++;
+      visionSource = null;
+      liveOcclusion = null;
+
+      visionButton.disabled = false;
+      visionReport.classList.add("hidden");
+      visionClearButton.classList.add("hidden");
+      resultHero.classList.remove("is-flipped");
+    }
+
     // =========================================================
     // 분석 결과 렌더링
     // =========================================================
+    function setAnimalLink(link, animal) {
+      const isKnown = animal.key === "otter" || animal.key === "weasel";
+      const label = isKnown
+        ? animal.name + " 설명 보기"
+        : "수달과 족제비 설명 보기";
+
+      link.href = isKnown ? "animals.html#" + animal.key : "animals.html";
+      link.title = label;
+      link.setAttribute("aria-label", label);
+    }
+
     function renderPrediction(predictions) {
       if (!predictions || predictions.length === 0) return;
 
@@ -1565,6 +2294,7 @@
 
       resultKicker.textContent = animal.english;
       resultAnimal.textContent = animal.icon;
+      setAnimalLink(resultAnimal, animal);
 
       resultName.innerHTML = "";
       const nameAccent = document.createElement("span");
@@ -1613,9 +2343,10 @@
         const name = document.createElement("div");
         name.className = "score-name";
 
-        const icon = document.createElement("span");
-        icon.className = "score-icon";
+        const icon = document.createElement("a");
+        icon.className = "score-icon animal-link";
         icon.textContent = info.icon;
+        setAnimalLink(icon, info);
 
         const label = document.createElement("span");
         label.textContent = item.className;
@@ -1648,6 +2379,7 @@
 
     stopButton.addEventListener("click", async () => {
       await stopCamera();
+      resetVision();
 
       cameraContainer.innerHTML = "";
       cameraContainer.classList.remove("has-media", "scanning");
@@ -1674,6 +2406,28 @@
 
     uploadButton.addEventListener("click", openFilePicker);
     changeImageButton.addEventListener("click", openFilePicker);
+    visionButton.addEventListener("click", runVisionScan);
+    visionClearButton.addEventListener("click", clearLiveOcclusion);
+
+    // 카메라 모드에서는 목록이 계속 다시 그려져 click이 끊기므로 pointerup으로도 이동합니다.
+    scoreList.addEventListener("pointerup", (event) => {
+      const link = event.target.closest(".animal-link");
+
+      if (link && event.button === 0) {
+        window.location.href = link.href;
+      }
+    });
+
+    // 설명 페이지에서 돌아왔을 때 이미 꺼진 카메라가 켜진 것처럼 보이지 않게 합니다.
+    window.addEventListener("pageshow", (event) => {
+      if (event.persisted && webcam) {
+        window.location.reload();
+      }
+    });
+
+    document.querySelectorAll("[data-sample]").forEach((button) => {
+      button.addEventListener("click", () => loadSampleImage(button));
+    });
 
     fileInput.addEventListener("change", async (event) => {
       const file = event.target.files && event.target.files[0];
